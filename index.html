@@ -65,26 +65,38 @@ audio{width:100%;max-width:600px;}
     gap:20px;
 }
 
+/* CARD */
 .card{
     background:#112211;
     border:2px solid #224422;
     padding:20px;
     border-radius:12px;
     position:relative;
+    overflow:hidden;
 }
 
+/* protege conteúdo */
+.card > *:not(.favorite-btn){
+    position:relative;
+    z-index:1;
+}
+
+/* ⭐ CORREÇÃO FINAL */
 .favorite-btn{
     position:absolute;
     top:10px;
-    right:10px;
+    right:12px;
+    width:auto !important; /* 🔥 ESSENCIAL */
+    height:auto;
+    z-index:999;
     background:none;
     border:none;
-    font-size:20px;
+    font-size:22px;
     cursor:pointer;
+    padding:0;
 }
 
-.card h3{color:var(--amarelo);}
-
+/* botão geral (continua normal) */
 button{
     width:100%;
     padding:10px;
@@ -94,6 +106,7 @@ button{
     cursor:pointer;
 }
 
+/* estilos */
 .play{background:var(--verde);color:white;}
 .download{background:var(--amarelo);color:#002200;}
 
@@ -127,7 +140,6 @@ footer{
 <div class="now" id="now">Selecione um toque 🎺</div>
 <audio id="audio" controls></audio>
 <button onclick="stopAudio()">⛔ Parar</button>
-<button onclick="baixarTudo()">📥 Baixar offline</button>
 </div>
 
 <div class="container">
@@ -181,17 +193,10 @@ const now=document.getElementById('now');
 
 let favoritos=[];
 let currentTab='todos';
-let currentBtn=null;
-
-function norm(t){
-return t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-}
 
 function loadFav(){
-try{
 const f=localStorage.getItem('fav');
 if(f) favoritos=JSON.parse(f);
-}catch{}
 }
 
 function saveFav(){
@@ -199,11 +204,9 @@ localStorage.setItem('fav',JSON.stringify(favoritos));
 }
 
 function toggleFav(nome){
-if(favoritos.includes(nome)){
-favoritos=favoritos.filter(n=>n!==nome);
-}else{
-favoritos.push(nome);
-}
+favoritos.includes(nome)
+? favoritos=favoritos.filter(n=>n!==nome)
+: favoritos.push(nome);
 saveFav();
 render();
 }
@@ -211,12 +214,6 @@ render();
 function render(){
 grid.innerHTML="";
 let lista=toques;
-
-const termo=norm(document.getElementById('search').value||"");
-
-if(termo){
-lista=lista.filter(t=>norm(t.nome).includes(termo));
-}
 
 if(currentTab==='favoritos'){
 lista=lista.filter(t=>favoritos.includes(t.nome));
@@ -234,17 +231,15 @@ el.innerHTML=`
 <button class="download">⬇️ Baixar</button>
 `;
 
-el.querySelector('.favorite-btn').onclick=()=>toggleFav(t.nome);
+el.querySelector('.favorite-btn').onclick=(e)=>{
+e.stopPropagation();
+toggleFav(t.nome);
+};
 
 el.querySelector('.play').onclick=()=>{
-if(currentBtn && currentBtn!==el.querySelector('.play')){
-currentBtn.innerHTML='▶️ Tocar';
-}
 audio.src=t.url;
 audio.play();
 now.textContent="Tocando: "+t.nome;
-el.querySelector('.play').innerHTML="❚❚ Pausar";
-currentBtn=el.querySelector('.play');
 };
 
 el.querySelector('.download').onclick=()=>{
@@ -261,19 +256,6 @@ grid.appendChild(el);
 window.stopAudio=function(){
 audio.pause();
 audio.currentTime=0;
-now.textContent="Parado";
-if(currentBtn) currentBtn.innerHTML="▶️ Tocar";
-};
-
-window.baixarTudo=async function(){
-const cache=await caches.open('tg-cache');
-for(const t of toques){
-try{
-const r=await fetch(t.url);
-await cache.put(t.url,r.clone());
-}catch{}
-}
-alert("Offline pronto");
 };
 
 document.querySelectorAll('.tab').forEach(tab=>{
@@ -285,14 +267,8 @@ render();
 };
 });
 
-document.getElementById('search').addEventListener('input',render);
-
 loadFav();
 render();
-
-if('serviceWorker' in navigator){
-navigator.serviceWorker.register('service-worker.js');
-}
 
 });
 </script>
