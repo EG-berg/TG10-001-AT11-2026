@@ -1,362 +1,301 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central de Toques e Canções - TG 10-001 Sentinela do Coreaú</title>
-    <style>
-        :root {
-            --verde: #002200;
-            --verde-escuro: #001100;
-            --amarelo: #ffcc00;
-            --cinza: #0f1f0f;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a140a;
-            color: #eee;
-            line-height: 1.7;
-        }
-        header {
-            background: linear-gradient(to bottom, var(--verde), var(--verde-escuro));
-            padding: 35px 20px 28px;
-            text-align: center;
-            border-bottom: 8px solid var(--amarelo);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-        }
-        .logo-container {
-            width: 190px;
-            height: 190px;
-            margin: 0 auto 18px;
-            border: 6px solid var(--amarelo);
-            border-radius: 50%;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 0 35px rgba(255, 204, 0, 0.7);
-        }
-        .logo-container img {
-            width: 107%;
-            height: 107%;
-            object-fit: cover;
-        }
-        h1 { 
-            font-size: 2.7rem; 
-            letter-spacing: 3px;
-            margin-bottom: 8px;
-        }
-        .subtitulo { 
-            color: var(--amarelo); 
-            font-size: 1.45rem; 
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central TG 10-001</title>
 
-        .player {
-            background: #0f1f0f;
-            padding: 28px 20px;
-            text-align: center;
-            border-bottom: 6px solid var(--amarelo);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-        .player-info {
-            font-size: 1.5rem;
-            margin-bottom: 14px;
-            color: var(--amarelo);
-            font-weight: 600;
-        }
+<style>
+:root {
+    --verde:#002200;
+    --verde-escuro:#001100;
+    --amarelo:#ffcc00;
+}
 
-        .search-container {
-            text-align: center;
-            margin: 35px auto 30px;
-        }
-        .search {
-            width: 100%;
-            max-width: 680px;
-            padding: 18px 24px 18px 50px;
-            font-size: 1.2rem;
-            border: 3px solid var(--amarelo);
-            border-radius: 50px;
-            background: #001a00;
-            color: white;
-            position: relative;
-        }
-        .search-icon {
-            position: absolute;
-            left: 22px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.4rem;
-            color: var(--amarelo);
-            pointer-events: none;
-        }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        .container {
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 0 20px 40px;
-        }
+body{
+    font-family:'Segoe UI',system-ui;
+    background:#0a140a;
+    color:#eee;
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 28px;
-        }
+header{
+    background:linear-gradient(var(--verde),var(--verde-escuro));
+    text-align:center;
+    padding:30px;
+    border-bottom:6px solid var(--amarelo);
+}
 
-        .card {
-            background: #112211;
-            border-radius: 16px;
-            padding: 26px;
-            border: 2px solid #224422;
-            transition: all 0.4s ease;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--amarelo);
-            box-shadow: 0 15px 35px rgba(255, 204, 0, 0.25);
-        }
-        .card h3 {
-            color: var(--amarelo);
-            font-size: 1.6rem;
-            margin-bottom: 12px;
-        }
-        .card p {
-            color: #ccc;
-            margin-bottom: 18px;
-        }
+.player{
+    text-align:center;
+    padding:20px;
+    background:#0f1f0f;
+    border-bottom:5px solid var(--amarelo);
+}
 
-        .btn-play {
-            background: var(--verde);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1.25rem;
-            border-radius: 50px;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-            margin-bottom: 10px;
-        }
-        .btn-play:hover { 
-            background: var(--amarelo); 
-            color: #002200;
-            transform: scale(1.04);
-        }
+.now{color:var(--amarelo);margin-bottom:10px;}
 
-        .btn-download {
-            background: var(--amarelo);
-            color: #002200;
-            border: none;
-            padding: 11px 24px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .btn-download:hover {
-            background: #ffe066;
-            transform: scale(1.04);
-        }
+audio{width:100%;max-width:600px;}
 
-        .aviso-instrumental {
-            color: #ffcc66;
-            background: rgba(255, 204, 0, 0.1);
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 1rem;
-            margin-top: 8px;
-            border: 1px solid #ffcc66;
-        }
+.container{max-width:1200px;margin:auto;padding:20px;}
 
-        footer {
-            background: var(--verde);
-            text-align: center;
-            padding: 35px 20px;
-            font-size: 1.05rem;
-            border-top: 7px solid var(--amarelo);
-        }
+.tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:15px;
+}
 
-        @media (max-width: 620px) {
-            h1 { font-size: 2.25rem; }
-            .logo-container { width: 160px; height: 160px; }
-            .grid { grid-template-columns: 1fr; }
-        }
-    </style>
+.tab{
+    padding:10px 20px;
+    border:2px solid #224422;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.tab.active{
+    background:var(--amarelo);
+    color:#002200;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#112211;
+    border:2px solid #224422;
+    padding:20px;
+    border-radius:12px;
+    position:relative;
+}
+
+.favorite-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:none;
+    border:none;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.card h3{color:var(--amarelo);}
+
+button{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.play{background:var(--verde);color:white;}
+.download{background:var(--amarelo);color:#002200;}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:2px solid var(--amarelo);
+    border-radius:20px;
+    background:#001a00;
+    color:white;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:var(--verde);
+    border-top:6px solid var(--amarelo);
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <div class="logo-container">
-            <img src="https://i.ibb.co/W4Lw220T/Screenshot-20260416-184648-Instagram.png" 
-                 alt="Brasão TG 10-001 Sentinela do Coreaú">
-        </div>
-        <h1>TG 10-001</h1>
-        <p class="subtitulo">SENTINELA DO COREAÚ</p>
-        <p style="margin-top:12px; opacity: 0.9;">Central de Toques e Canções Militares • Exército Brasileiro</p>
-    </header>
+<header>
+<h1>TG 10-001</h1>
+<p>Sentinela do Coreaú</p>
+</header>
 
-    <div class="player" id="player">
-        <div class="player-info" id="now-playing">Selecione um toque ou canção para reproduzir 🎺</div>
-        <audio id="audioPlayer" controls style="width:100%; max-width:760px;"></audio>
-    </div>
+<div class="player">
+<div class="now" id="now">Selecione um toque 🎺</div>
+<audio id="audio" controls></audio>
+<button onclick="stopAudio()">⛔ Parar</button>
+<button onclick="baixarTudo()">📥 Baixar offline</button>
+</div>
 
-    <div class="container">
-        <div class="search-container">
-            <div style="position:relative; display:inline-block; width:100%; max-width:680px;">
-                <span class="search-icon">🔎</span>
-                <input type="text" id="search" class="search" placeholder="Buscar (hino do exército, hino nacional, expedicionário, sentido...)">
-            </div>
-        </div>
+<div class="container">
 
-        <div class="grid" id="toquesGrid"></div>
-    </div>
+<div class="tabs">
+<div class="tab active" data-tab="todos">Todos</div>
+<div class="tab" data-tab="favoritos">⭐ Favoritos</div>
+</div>
 
-    <footer>
-        <strong>Tiro de Guerra 10-001 "Sentinela do Coreaú"</strong><br>
-        Camocim - Ceará • Exército Brasileiro • 1917 — 2026
-    </footer>
+<input id="search" placeholder="Buscar...">
 
-    <script>
-        const toques = [
-            // Hinos
-            { 
-                nome: "Hino do Exército Brasileiro", 
-                desc: "Canção do Exército - Versão cantada oficial", 
-                url: "https://cb.es.gov.br/Media/CBMES/mp3/hinos%20e%20cancoes/cancao_do_exercito.mp3" 
-            },
-            { 
-                nome: "Hino do Exército Brasileiro (Instrumental)", 
-                desc: "Versão apenas instrumental", 
-                url: "" 
-            },
-            { 
-                nome: "Hino Nacional Brasileiro", 
-                desc: "Versão oficial cantada", 
-                url: "https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/audio/2018-11/hino_nacional_brasileiro.mp3" 
-            },
-            { 
-                nome: "Hino Nacional Brasileiro (Instrumental)", 
-                desc: "Versão apenas instrumental", 
-                url: "https://upload.wikimedia.org/wikipedia/commons/9/9b/Hino_Nacional_Brasileiro_instrumental.ogg" 
-            },
+<div id="grid" class="grid"></div>
 
-            // Canções Militares
-            { 
-                nome: "Canção do Expedicionário", 
-                desc: "Pátria Brasileira - Versão cantada (FEB)", 
-                url: "https://cb.es.gov.br/Media/CBMES/mp3/hinos%20e%20cancoes/cancao_do_expedicionario.mp3" 
-            },
-            { 
-                nome: "Canção do Expedicionário (Instrumental)", 
-                desc: "Versão apenas instrumental", 
-                url: "" 
-            },
+</div>
 
-            // Toques de Corneta
-            { nome: "Sentido", desc: "Todos em posição de sentido", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/48-sentido.mp3" },
-            { nome: "Descansar", desc: "Posição de descanso", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/20-descansar.mp3" },
-            { nome: "À Vontade", desc: "Ficar à vontade", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/01-a_vontade.mp3" },
-            { nome: "Firme", desc: "Ficar em posição firme", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/28-firme.mp3" },
-            { nome: "Cobrir", desc: "Alinhamento da formatura", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/16-cobrir.mp3" },
-            { nome: "Apresentar Arma", desc: "Apresentar arma ao comandante", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/06-apresentar_arma.mp3" },
-            { nome: "Ombro Arma", desc: "Arma no ombro", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/39-ombro_arma.mp3" },
-            { nome: "Descansar Arma", desc: "Descansar arma no chão", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/21-descansar_arma.mp3" },
-            { nome: "Cruzar Arma", desc: "Cruzar arma à frente", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/19-cruzar_arma.mp3" },
-            { nome: "Direita Volver", desc: "Direita volver", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/22-direita_volver.mp3" },
-            { nome: "Esquerda Volver", desc: "Esquerda volver", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/27-esquerda_volver.mp3" },
-            { nome: "Meia Volta Volver", desc: "Meia volta volver", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/35-meia_volta_volver.mp3" },
-            { nome: "Ordinário Marché", desc: "Marcha ordinária", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/41-ordinario_marche.mp3" },
-            { nome: "Marcar Passo", desc: "Marcar passo no lugar", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/33-marcar_passo.mp3" },
-            { nome: "Acelerado", desc: "Marcha acelerada", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/02-acelerado.mp3" },
-            { nome: "Alto", desc: "Parar imediatamente", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/04-alto.mp3" },
-            { nome: "Silêncio", desc: "Silêncio total", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/49-silencio.mp3" },
-            { nome: "Alvorada", desc: "Toque de alvorada", url: "https://cpmlondrina.com.br/wp-content/uploads/2018/06/05-alvorada.mp3" }
-        ];
+<footer>
+TG 10-001 • Camocim-CE
+</footer>
 
-        const audio = document.getElementById('audioPlayer');
-        const nowPlaying = document.getElementById('now-playing');
-        const grid = document.getElementById('toquesGrid');
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
 
-        function renderToques(filteredToques) {
-            grid.innerHTML = '';
-            filteredToques.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
+const toques = [
+{nome:"Hino do Exército Brasileiro",desc:"Oficial",url:"https://cb.es.gov.br/Media/CBMES/mp3/hinos%20e%20cancoes/cancao_do_exercito.mp3"},
+{nome:"Hino Nacional Brasileiro",desc:"Oficial",url:"https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/audio/2018-11/hino_nacional_brasileiro.mp3"},
+{nome:"Hino Nacional Instrumental",desc:"Instrumental",url:"https://upload.wikimedia.org/wikipedia/commons/9/9b/Hino_Nacional_Brasileiro_instrumental.ogg"},
+{nome:"Canção do Expedicionário",desc:"FEB",url:"https://cb.es.gov.br/Media/CBMES/mp3/hinos%20e%20cancoes/cancao_do_expedicionario.mp3"},
 
-                let conteudoBotoes = '';
+{nome:"Sentido",desc:"Posição",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/48-sentido.mp3"},
+{nome:"Descansar",desc:"Descanso",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/20-descansar.mp3"},
+{nome:"À Vontade",desc:"À vontade",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/01-a_vontade.mp3"},
+{nome:"Firme",desc:"Firme",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/28-firme.mp3"},
+{nome:"Cobrir",desc:"Cobrir",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/16-cobrir.mp3"},
+{nome:"Apresentar Arma",desc:"Apresentar arma",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/06-apresentar_arma.mp3"},
+{nome:"Ombro Arma",desc:"Ombro arma",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/39-ombro_arma.mp3"},
+{nome:"Descansar Arma",desc:"Descansar arma",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/21-descansar_arma.mp3"},
+{nome:"Cruzar Arma",desc:"Cruzar arma",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/19-cruzar_arma.mp3"},
+{nome:"Direita Volver",desc:"Direita",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/22-direita_volver.mp3"},
+{nome:"Esquerda Volver",desc:"Esquerda",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/27-esquerda_volver.mp3"},
+{nome:"Meia Volta Volver",desc:"Meia volta",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/35-meia_volta_volver.mp3"},
+{nome:"Ordinário Marché",desc:"Marcha",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/41-ordinario_marche.mp3"},
+{nome:"Marcar Passo",desc:"Marcar",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/33-marcar_passo.mp3"},
+{nome:"Acelerado",desc:"Rápido",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/02-acelerado.mp3"},
+{nome:"Alto",desc:"Parar",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/04-alto.mp3"},
+{nome:"Silêncio",desc:"Silêncio",url:"https://cpmlondrina.com.br/wp-content/uploads/2018/06/49-silencio.mp3"}
+];
 
-                if (item.url) {
-                    conteudoBotoes = `
-                        <button class="btn-play" data-url="${item.url}" data-nome="${item.nome}">
-                            ▶️ Tocar
-                        </button>
-                        <button class="btn-download" onclick="downloadFile('${item.url}', '${item.nome}')">
-                            ⬇️ Baixar MP3
-                        </button>
-                    `;
-                } else {
-                    conteudoBotoes = `
-                        <div class="aviso-instrumental">
-                            ⚠️ Áudio instrumental ainda não disponível
-                        </div>
-                    `;
-                }
+const grid=document.getElementById('grid');
+const audio=document.getElementById('audio');
+const now=document.getElementById('now');
 
-                card.innerHTML = `
-                    <h3>🎺 ${item.nome}</h3>
-                    <p>${item.desc}</p>
-                    ${conteudoBotoes}
-                `;
-                grid.appendChild(card);
-            });
-        }
+let favoritos=[];
+let currentTab='todos';
+let currentBtn=null;
 
-        function downloadFile(url, nome) {
-            if (!url) return;
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = nome.replace(/[\\/:*?"<>|]/g, '_') + '.mp3';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+function norm(t){
+return t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+}
 
-        document.addEventListener('click', e => {
-            if (e.target.classList.contains('btn-play')) {
-                const url = e.target.getAttribute('data-url');
-                const nome = e.target.getAttribute('data-nome');
-                if (url) {
-                    audio.src = url;
-                    audio.play();
-                    nowPlaying.textContent = `🎺 Tocando agora: ${nome}`;
-                }
-            }
-        });
+function loadFav(){
+try{
+const f=localStorage.getItem('fav');
+if(f) favoritos=JSON.parse(f);
+}catch{}
+}
 
-        document.getElementById('search').addEventListener('input', e => {
-            const termo = e.target.value.toLowerCase().trim();
-            const filtrados = toques.filter(t => 
-                t.nome.toLowerCase().includes(termo) || 
-                t.desc.toLowerCase().includes(termo)
-            );
-            renderToques(filtrados);
-        });
+function saveFav(){
+localStorage.setItem('fav',JSON.stringify(favoritos));
+}
 
-        renderToques(toques);
-    </script>
+function toggleFav(nome){
+if(favoritos.includes(nome)){
+favoritos=favoritos.filter(n=>n!==nome);
+}else{
+favoritos.push(nome);
+}
+saveFav();
+render();
+}
+
+function render(){
+grid.innerHTML="";
+let lista=toques;
+
+const termo=norm(document.getElementById('search').value||"");
+
+if(termo){
+lista=lista.filter(t=>norm(t.nome).includes(termo));
+}
+
+if(currentTab==='favoritos'){
+lista=lista.filter(t=>favoritos.includes(t.nome));
+}
+
+lista.forEach(t=>{
+const el=document.createElement('div');
+el.className='card';
+
+el.innerHTML=`
+<button class="favorite-btn">${favoritos.includes(t.nome)?"⭐":"☆"}</button>
+<h3>${t.nome}</h3>
+<p>${t.desc}</p>
+<button class="play">▶️ Tocar</button>
+<button class="download">⬇️ Baixar</button>
+`;
+
+el.querySelector('.favorite-btn').onclick=()=>toggleFav(t.nome);
+
+el.querySelector('.play').onclick=()=>{
+if(currentBtn && currentBtn!==el.querySelector('.play')){
+currentBtn.innerHTML='▶️ Tocar';
+}
+audio.src=t.url;
+audio.play();
+now.textContent="Tocando: "+t.nome;
+el.querySelector('.play').innerHTML="❚❚ Pausar";
+currentBtn=el.querySelector('.play');
+};
+
+el.querySelector('.download').onclick=()=>{
+const a=document.createElement('a');
+a.href=t.url;
+a.download=t.nome+".mp3";
+a.click();
+};
+
+grid.appendChild(el);
+});
+}
+
+window.stopAudio=function(){
+audio.pause();
+audio.currentTime=0;
+now.textContent="Parado";
+if(currentBtn) currentBtn.innerHTML="▶️ Tocar";
+};
+
+window.baixarTudo=async function(){
+const cache=await caches.open('tg-cache');
+for(const t of toques){
+try{
+const r=await fetch(t.url);
+await cache.put(t.url,r.clone());
+}catch{}
+}
+alert("Offline pronto");
+};
+
+document.querySelectorAll('.tab').forEach(tab=>{
+tab.onclick=()=>{
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+tab.classList.add('active');
+currentTab=tab.dataset.tab;
+render();
+};
+});
+
+document.getElementById('search').addEventListener('input',render);
+
+loadFav();
+render();
+
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('service-worker.js');
+}
+
+});
+</script>
+
 </body>
 </html>
